@@ -1,4 +1,19 @@
-export default function Home() {
+import { calculateWeightBalance } from "@/lib/calculateWeightBalance";
+import { C172R } from "@/data/aircraft/c172r";export default function Home() {  const result = calculateWeightBalance(C172R, {
+    emptyWeight: 1668,
+    emptyCG: 40.8,
+
+    pilot: 180,
+    frontPassenger: 170,
+
+    rearLeft: 0,
+    rearRight: 0,
+
+    fuelGallons: 40,
+
+    baggage1: 20,
+    baggage2: 0,
+  });  console.log(result);
   return (
     <main className="min-h-screen bg-slate-950 text-white p-8">
       <div className="max-w-7xl mx-auto">
@@ -196,21 +211,74 @@ export default function Home() {
 
             </div>
 
-            {/* Graph Placeholder */}
+           {/* Calculation Results */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 
-            <div className="bg-slate-900 rounded-xl p-6 h-[450px]">
+  <div className="bg-slate-800 rounded-xl p-6">
+    <p className="text-slate-400 text-sm">
+      Total Weight
+    </p>
 
-              <h2 className="text-xl font-semibold mb-4">
-                CG Envelope
-              </h2>
+    <p className="text-4xl font-bold mt-2">
+      {result.totalWeight.toFixed(0)} lb
+    </p>
+  </div>
 
-              <div className="min-h-[320px] border-2 border-dashed border-slate-700 rounded flex items-center justify-center text-slate-500">
+  <div className="bg-slate-800 rounded-xl p-6">
+    <p className="text-slate-400 text-sm">
+      Center of Gravity
+    </p>
 
-                CG Graph Coming Soon
+    <p className="text-4xl font-bold mt-2">
+      {result.cg.toFixed(2)} in
+    </p>
+  </div>
 
-              </div>
+</div>
+{/* CG Envelope */}
 
-            </div>
+<div className="bg-slate-900 rounded-xl p-6">
+  <h2 className="text-xl font-semibold mb-4">
+    CG Envelope
+  </h2>
+
+  <div className="relative w-full aspect-[4/3] border border-slate-700 rounded-lg bg-slate-950 overflow-hidden">
+
+    {/* CG Envelope */}
+    <svg
+      viewBox="0 0 100 100"
+      className="absolute inset-0 w-full h-full"
+      preserveAspectRatio="none"
+    >
+      {/* Envelope boundary */}
+      <polygon
+        points="10,85 10,20 35,10 90,10 90,85"
+        fill="none"
+        stroke="white"
+        strokeWidth="0.8"
+      />
+
+      {/* Current CG point */}
+      <circle
+        cx="48"
+        cy="35"
+        r="2"
+        fill="red"
+      />
+    </svg>
+
+    {/* Labels */}
+    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-slate-400">
+      Center of Gravity (in)
+    </div>
+
+    <div className="absolute left-2 top-1/2 -translate-y-1/2 -rotate-90 text-xs text-slate-400">
+      Weight (lb)
+    </div>
+
+  </div>
+</div>
+
 
           </div>
 
