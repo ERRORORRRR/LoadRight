@@ -18,4 +18,10 @@ export const C172R = {
     baggage1: 95,
     baggage2: 123,
   },
+  graph: {
+  minCG: 34,
+  maxCG: 48,
+  minWeight: 1500,
+  maxWeight: 2450,
+},
 };

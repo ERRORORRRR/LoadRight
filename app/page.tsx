@@ -1,9 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import { calculateWeightBalance } from "@/lib/calculateWeightBalance";
-import { C172R } from "@/data/aircraft/c172r";export default function Home() {  const result = calculateWeightBalance(C172R, {
+import { C172R } from "@/data/aircraft/c172r";export default function Home() {const [pilot, setPilot] = useState(180);  const result = calculateWeightBalance(C172R, {
     emptyWeight: 1668,
     emptyCG: 40.8,
 
-    pilot: 180,
+    pilot,
     frontPassenger: 170,
 
     rearLeft: 0,
@@ -83,9 +86,13 @@ import { C172R } from "@/data/aircraft/c172r";export default function Home() {  
               <div className="grid grid-cols-2 gap-4">
 
                 <input
-                  className="p-3 rounded bg-slate-800"
-                  placeholder="Pilot"
-                />
+  type="number"
+  className="p-3 rounded bg-slate-800"
+  placeholder="Pilot"
+  value={pilot}
+  onChange={(e) => setPilot(Number(e.target.value))}
+/>
+   
 
                 <input
                   className="p-3 rounded bg-slate-800"
@@ -252,19 +259,27 @@ import { C172R } from "@/data/aircraft/c172r";export default function Home() {  
     >
       {/* Envelope boundary */}
       <polygon
-        points="10,85 10,20 35,10 90,10 90,85"
-        fill="none"
-        stroke="white"
-        strokeWidth="0.8"
-      />
+  points="
+    12,84
+    12,48
+    39,10
+    91,10
+    91,84
+  "
+  fill="none"
+  stroke="white"
+  strokeWidth="1"
+/>
+      
 
       {/* Current CG point */}
       <circle
-        cx="48"
-        cy="35"
-        r="2"
-        fill="red"
-      />
+  cx={12 + ((result.cg - 35) / (47.3 - 35)) * 79}
+  cy={84 - ((result.totalWeight - 1500) / (2450 - 1500)) * 74}
+  r="2"
+  fill="red"
+/>
+      
     </svg>
 
     {/* Labels */}
